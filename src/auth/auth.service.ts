@@ -15,7 +15,6 @@ import { LoginUserDto } from '../users/dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from 'src/utils/enum';
 
-
 // import { UpdateAuthDto } from './dto/update-auth.dto';
 
 @Injectable()
@@ -66,6 +65,7 @@ export class AuthService {
       name: user.name, // Ensure that these fields exist on the user object
       phoneNumber: user.phoneNumber,
       status: user.status,
+      role: user.role,
     };
     return this.jwtService.sign(payload);
   }

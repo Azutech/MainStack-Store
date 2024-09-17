@@ -3,10 +3,8 @@ export enum Status {
   INACTIVE = 'Inactive',
 }
 
-
 // roles.enum.ts
 export enum Role {
   ADMIN = 'Admin',
   USER = 'User',
-
 }
