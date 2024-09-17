@@ -13,6 +13,8 @@ import { User } from '../users/entities/user.entity';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginUserDto } from '../users/dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from 'src/utils/enum';
+
 
 // import { UpdateAuthDto } from './dto/update-auth.dto';
 
@@ -35,6 +37,7 @@ export class AuthService {
       name,
       email,
       phoneNumber,
+      role: Role.USER,
       password: hashedPassword,
     });
 

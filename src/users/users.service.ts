@@ -12,13 +12,16 @@ export class UsersService {
     // private readonly jwtService: JwtService,
   ) {}
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    const user = await this.userModel.find({ }).exec();
+
+    if (user.length === 0) {
+      throw new NotFoundException('User Not Found');
+    }
+
+    return user;
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
 
   async findOne(id: string): Promise<User> {
     const user = await this.userModel.findOne({ _id: id }).exec();

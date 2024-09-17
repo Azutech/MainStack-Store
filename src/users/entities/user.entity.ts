@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Status } from 'src/utils/type';
+import { Status, Role } from 'src/utils/enum';
 
 @Schema()
 export class User extends Document {
@@ -18,6 +18,9 @@ export class User extends Document {
 
   @Prop()
   verificationCode: string;
+
+  @Prop()
+  role: Role;
 
   @Prop({
     default: 'Active',

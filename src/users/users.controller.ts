@@ -12,18 +12,31 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Request } from 'express';
 import { JwtAuthGuard } from 'src/guard/jwt.guard';
 import { User } from './entities/user.entity';
-JwtAuthGuard;
+import { RolesGuard } from 'src/guard/roles.guard';
+import { Roles } from '../decorators/role.decorators'; // Import the Roles decorator
+import { Role } from '../utils/enum';
+;
 
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @Get('allUsers')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  async findAll(@Req() req: any) {
+    // return this.usersService.findAll();
+    try {
+      const users = await this.usersService.findAll()
+      return users
+    } catch (err: any) {
+      throw new HttpException(
+        err.response || err.message,
+        err.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Get('me')
