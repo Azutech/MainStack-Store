@@ -10,19 +10,29 @@ import {
   Put,
   Param,
   Delete,
+  Req,
+  UseGuards
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { JwtAuthGuard } from 'src/guard/jwt.guard';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post('createProduct')
-  async createProduct(@Body() createProductDto: CreateProductDto) {
+  @UseGuards(JwtAuthGuard)
+  async createProduct(@Body() createProductDto: CreateProductDto, @Req() req: any) {
     try {
-      const result = await this.productsService.create(createProductDto);
+
+      const createdBy = req.user?.name; // Adjust this according to your JWT payload structure
+
+      if (!createdBy) {
+        throw new HttpException('User not authenticated', HttpStatus.UNAUTHORIZED);
+      }
+      const result = await this.productsService.create(createProductDto, createdBy);
       return {
         message: 'Products Created successfully',
         statusCode: HttpStatus.CREATED,
@@ -54,7 +64,7 @@ export class ProductsController {
   }
 
   @Get('product')
-  async findOne(@Query('id') id: string) {
+  async findOne(@Query('productId') id: string) {
     try {
       const user = await this.productsService.findOne(id);
       return user;
@@ -70,6 +80,7 @@ export class ProductsController {
   }
 
   @Put('updateProduct')
+  @UseGuards(JwtAuthGuard)
   async updateProduct(
     @Query('id') id: string,
     @Body() updateProductDto: UpdateProductDto
@@ -91,7 +102,8 @@ export class ProductsController {
   
 
   @Delete('delete')
-  async delete(@Query('id') id: string) {
+  @UseGuards(JwtAuthGuard)
+  async delete(@Query('productId') id: string) {
     try {
       const user = await this.productsService.remove(id);
       return user;

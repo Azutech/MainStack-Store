@@ -15,14 +15,15 @@ export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
-  async create(createProductDto: CreateProductDto) {
-    const { name, price, description, brand } = createProductDto;
+  async create(createProductDto: CreateProductDto, createdBy: string ) {
+    const { name, price, description, brand,  } = createProductDto;
 
     const createProducts = new this.productModel({
       name,
       price,
       description,
       brand,
+      createdBy
     });
 
     if (!createProducts) {

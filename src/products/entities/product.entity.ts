@@ -16,10 +16,14 @@ export class Product extends Document {
   @Prop()
   brand: string; // Change 'Brand' to 'brand' for consistency
 
+  @Prop()
+  createdBy: string; 
+
   @Prop({
     default: moment.utc().toDate(), // Use Moment.js to get the current UTC date
   })
   date: Date; // Correct the type to be Date
+  
 }
 
 export const productsSchema = SchemaFactory.createForClass(Product);
