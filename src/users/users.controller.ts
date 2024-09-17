@@ -18,7 +18,7 @@ import { User } from './entities/user.entity';
 import { RolesGuard } from 'src/guard/roles.guard';
 import { Roles } from '../decorators/role.decorators'; // Import the Roles decorator
 import { Role } from '../utils/enum';
-@Controller('user')
+@Controller('api/v1/user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
