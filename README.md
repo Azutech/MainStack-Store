@@ -33,4 +33,7 @@ To contribute to the project, you can:
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+[MIT] ()
+The project is licensed under the MIT license.
+
+Copyright (c) [2024] [EmmanuelOnugha]
