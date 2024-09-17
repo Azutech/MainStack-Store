@@ -16,7 +16,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
 
-  app.use(new HttpLogger().use);
+  // app.use(new HttpLogger().use);
 
   await app.listen(port, () => logger.log(`App running on Port: ${port}`));
 }
