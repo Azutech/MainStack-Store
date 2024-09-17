@@ -82,7 +82,7 @@ export class ProductsController {
   @Put('updateProduct')
   @UseGuards(JwtAuthGuard)
   async updateProduct(
-    @Query('id') id: string,
+    @Query('productId') id: string,
     @Body() updateProductDto: UpdateProductDto
   ) {
     try {
@@ -101,7 +101,7 @@ export class ProductsController {
   }
   
 
-  @Delete('delete')
+  @Delete('deleteProduct')
   @UseGuards(JwtAuthGuard)
   async delete(@Query('productId') id: string) {
     try {
