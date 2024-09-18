@@ -1,0 +1,31 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build: .
+    ports:
+      - '5679:5678'  # Changed host port to 5679
+    depends_on:
+      - mongo
+    environment:
+      PORT: 5678
+      MONGO_URI: mongodb://mongo:27017/mainstack
+      JWT_SECRET: mysecretkey
+      JWT_EXPIRATION_DATE: '3d'
+    # Alternatively, you can use env_file to load all variables from .env:
+    # env_file: .env
+
+volumes:
+  mongo-data:
+
+
+
+
+
+
