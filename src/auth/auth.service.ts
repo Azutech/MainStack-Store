@@ -7,13 +7,14 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '../users/entities/user.entity';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginUserDto } from '../users/dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
-import { Role } from 'src/utils/enum';
+import { Role, Status } from 'src/utils/enum';
 
 // import { UpdateAuthDto } from './dto/update-auth.dto';
 
@@ -32,12 +33,15 @@ export class AuthService {
       throw new ConflictException('User with this email already exists');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationCode = uuidv4();
     const createdUser = new this.userModel({
       name,
       email,
       phoneNumber,
       role: Role.USER,
+      verificationCode,
       password: hashedPassword,
+      isVerified: false,
     });
 
     if (!createdUser) {
@@ -53,10 +57,6 @@ export class AuthService {
   findOne(id: number) {
     return `This action returns a #${id} auth`;
   }
-
-  // update(id: number, updateAuthDto: UpdateAuthDto) {
-  //   return `This action updates a #${id} auth`;
-  // }
 
   async generateToken(user: User): Promise<string> {
     const payload = {
@@ -95,5 +95,37 @@ export class AuthService {
     delete userObject.password;
 
     return userObject;
+  }
+
+  async accountActivation(code: string): Promise<any> {
+    const findCode = await this.userModel.findOne({ verificationCode: code });
+
+    if (!findCode) {
+      throw new NotFoundException('Verification Code not found');
+    }
+
+    const findUser = await this.userModel.findById(findCode?._id);
+
+    if (!findUser) {
+      throw new HttpException('User does not exist', HttpStatus.BAD_REQUEST);
+    }
+
+    const verifiedUser = await this.userModel.findOneAndUpdate(
+      { _id: findUser._id },
+      { $set: { status: Status.ACTIVE }, $unset: { verificationCode: 1 } }, // Remove the 'token' field
+      { new: true },
+    );
+
+    if (!verifiedUser) {
+      throw new HttpException('Unable to verify User ', HttpStatus.BAD_REQUEST);
+    }
+
+    return {
+      message: 'Account activated successfully',
+      user: {
+        isVerified: true,
+        status: Status.ACTIVE,
+      },
+    };
   }
 }

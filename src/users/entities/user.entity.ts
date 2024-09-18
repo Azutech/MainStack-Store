@@ -20,10 +20,13 @@ export class User extends Document {
   verificationCode: string;
 
   @Prop()
+  isVerified: boolean;
+
+  @Prop()
   role: Role;
 
   @Prop({
-    default: 'Active',
+    default: Status.INACTIVE,
   })
   status: Status;
 }

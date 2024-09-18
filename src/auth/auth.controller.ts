@@ -4,8 +4,7 @@ import {
   Post,
   Body,
   Patch,
-  Param,
-  Delete,
+  Query,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
@@ -50,6 +49,24 @@ export class AuthController {
       };
     } catch (error) {
       // Rethrow the error with the original status code and message
+      throw new HttpException(
+        error.response || error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('activateAccount')
+  async activate(@Query('vericationCode') verication_code: string) {
+    try {
+      const activatedUser =
+        await this.authService.accountActivation(verication_code);
+      return {
+        message: 'Account Activated Successfully',
+        statusCode: HttpStatus.OK,
+        activatedUser,
+      };
+    } catch (error) {
       throw new HttpException(
         error.response || error.message,
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,

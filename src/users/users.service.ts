@@ -30,7 +30,12 @@ export class UsersService {
       throw new NotFoundException('User Not Found');
     }
 
-    return user;
+    const userObject = user.toObject();
+
+    // Remove the password from the response object
+    delete userObject.password;
+
+    return userObject;
   }
 
   async findAdmin(id: string): Promise<User> {
@@ -43,7 +48,9 @@ export class UsersService {
       throw new NotFoundException(`Admin with ID ${id} not found`);
     }
 
-    return adminUser;
+    const userObject = adminUser.toObject();
+    adminUser;
+    return userObject;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -57,6 +64,31 @@ export class UsersService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    return user;
+    const userObject = user.toObject();
+
+    // Remove the password from the response object
+    delete userObject.password;
+
+    return userObject;
+  }
+
+  async findByCode(verificationCode: string): Promise<User | null> {
+    return this.userModel.findOne({ verificationCode }).exec();
+  }
+
+  async activateAccount(
+    id: string,
+    status: string,
+    verificationCode: string,
+    isVerified: boolean,
+  ): Promise<User | null> {
+    return this.userModel.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: { status: 'Active', isVerified: true },
+        $unset: { verificationCode: 1 },
+      }, // Remove the 'token' field
+      { new: true },
+    );
   }
 }

@@ -14,19 +14,14 @@ export class CreateUserDto {
 
   @IsEmail()
   @IsNotEmpty()
-  @Validate(IsDomainConstraint, [
-    '.com',
-    '.co.uk',
-    '.ng',
-    '.org',
-    'co.za',
-    'net',
-    '.africa',
-  ], {
-    
-      message: 'The email domain must be one of the following: .com, .co.uk, .ng, .org, co.za, net, .africa',
-   
-  },) // Specify the allowed domain(s)
+  @Validate(
+    IsDomainConstraint,
+    ['.com', '.co.uk', '.ng', '.org', 'co.za', 'net', '.africa'],
+    {
+      message:
+        'The email domain must be one of the following: .com, .co.uk, .ng, .org, co.za, net, .africa',
+    },
+  ) // Specify the allowed domain(s)
   email: string;
 
   @IsString()

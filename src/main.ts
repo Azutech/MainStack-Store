@@ -17,10 +17,9 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
-      stopAtFirstError: true,  // Stops validation and returns the first error encountered
+      stopAtFirstError: true, // Stops validation and returns the first error encountered
     }),
   );
-  
 
   app.use(new HttpLogger().use);
 

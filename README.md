@@ -30,11 +30,24 @@ To contribute to the project, you can:
 - Push to your branch: `git push origin feature-name`
 - Create a pull request
 
+ **Login**
+
+ - POST /auth/login : logs the user in
+
+ **Registration**
+ - POST /auth/register : registers the users
+
 ## Hosted Link
  -The app was deployed using the [Render](https://render.com). Find the link [Here](https://mainstack-store.onrender.com)
 
+ ## PostMan Documentation
+
+ Click this [link](https://documenter.getpostman.com/view/19569197/2sAXqqd3QU#5da4db40-b7a1-42dd-9b86-dcf98d94cdb7) to get the full API Documentation 
+
 
 ## License
+
+
 
 [MIT] ()
 The project is licensed under the MIT license.
