@@ -30,6 +30,9 @@ To contribute to the project, you can:
 - Push to your branch: `git push origin feature-name`
 - Create a pull request
 
+## Hosted Link
+ -The app was deployed using the [Render](https://render.com). Find the link [Here](https://mainstack-store.onrender.com)
+
 
 ## License
 
