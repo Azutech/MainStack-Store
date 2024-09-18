@@ -16,8 +16,7 @@ services:
     environment:
       PORT: 5678
       MONGO_URI: mongodb://mongo:27017/mainstack
-      JWT_SECRET: mysecretkey
-      JWT_EXPIRATION_DATE: '3d'
+     
     # Alternatively, you can use env_file to load all variables from .env:
     # env_file: .env
 
