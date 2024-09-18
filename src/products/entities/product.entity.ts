@@ -8,7 +8,7 @@ export class Product extends Document {
   name: string;
 
   @Prop({ required: true })
-  price: number; 
+  price: number;
 
   @Prop({ required: true })
   description: string;
@@ -17,13 +17,12 @@ export class Product extends Document {
   brand: string; // Change 'Brand' to 'brand' for consistency
 
   @Prop()
-  createdBy: string; 
+  createdBy: string;
 
   @Prop({
     default: moment.utc().toDate(), // Use Moment.js to get the current UTC date
   })
   date: Date; // Correct the type to be Date
-  
 }
 
 export const productsSchema = SchemaFactory.createForClass(Product);

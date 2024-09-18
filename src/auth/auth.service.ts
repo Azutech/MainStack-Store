@@ -29,7 +29,7 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (user) {
-      throw new ConflictException('User with this email already not exist');
+      throw new ConflictException('User with this email already exists');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const createdUser = new this.userModel({

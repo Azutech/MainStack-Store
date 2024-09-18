@@ -6,7 +6,6 @@ import { ProductsController } from './products.controller';
 import { Product, productsSchema } from './entities/product.entity';
 import { JwtModule } from '@nestjs/jwt';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),

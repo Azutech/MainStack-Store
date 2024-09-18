@@ -29,7 +29,11 @@ export class UsersController {
     // return this.usersService.findAll();
     try {
       const users = await this.usersService.findAll();
-      return { message: 'All Users retrieved successful', statusCode: HttpStatus.OK, users };
+      return {
+        message: 'All Users retrieved successful',
+        statusCode: HttpStatus.OK,
+        users,
+      };
     } catch (err: any) {
       throw new HttpException(
         err.response || err.message,

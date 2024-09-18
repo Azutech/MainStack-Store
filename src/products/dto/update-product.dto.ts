@@ -3,14 +3,13 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CreateProductDto } from './create-product.dto';
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {
-    
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @IsNumber({}, { message: 'Price must be a valid number' })  // Custom error message for price validation
+  @IsNumber({}, { message: 'Price must be a valid number' }) // Custom error message for price validation
   @IsNotEmpty()
-  price: number;  
+  price: number;
 
   @IsString()
   @IsNotEmpty()
@@ -19,6 +18,4 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   @IsString()
   @IsNotEmpty()
   brand: string;
-
 }
-
